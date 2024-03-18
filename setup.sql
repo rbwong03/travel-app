@@ -27,6 +27,7 @@ CREATE TABLE user_info (
     -- We can use BINARY or CHAR here; BINARY simply has a different
     -- definition for comparison/sorting than CHAR.
     password_hash BINARY(64) NOT NULL,
+    is_admin INT DEFAULT 0 NOT NULL,
 
     PRIMARY KEY (user_id)
 );
@@ -64,7 +65,7 @@ CREATE TABLE wishlist (
     ON DELETE CASCADE
 );
 
--- Entity set
+-- Relationship set
 -- Table to store the connection of users with others. Right now, we are
 -- thinking about only storing one combination of the connection in the table.
 -- e.g: a friendship between user1 and user2 would show up as (user1, user2) or 
@@ -98,6 +99,7 @@ CREATE TABLE visits (
     city_id INT NOT NULL,
 
     review_text VARCHAR(300),
+    picture VARCHAR(100),
     rating NUMERIC(10,2) NOT NULL,
 
     -- start and end date that can be used to calculate who you've overlapped
@@ -117,25 +119,14 @@ CREATE TABLE visits (
     FOREIGN KEY (city_id) REFERENCES city_info (city_id)
     ON DELETE CASCADE,
 
-    CHECK (rating BETWEEN 0 and 10)
-);
-
--- tables so that there can be multiple pictures per visit
-CREATE TABLE pictures (
-    visit_id INT, 
-    picture VARCHAR(100),
-
-    PRIMARY KEY (visit_id, picture),
-
-    FOREIGN KEY (visit_id) REFERENCES visits(visit_id)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE    
+    CHECK (rating BETWEEN 0 and 10),
+    UNIQUE (start_date, end_date)
 );
 
 -- for when we want to query all of a user's cities they want to visit
 CREATE INDEX idx_user_wishlist ON wishlist(user_id);
 
--- for when we wantt o query all of the users who have a certain city on their
+-- for when we want to query all of the users who have a certain city on their
 -- wishlist
 CREATE INDEX idx_city_wishlist ON wishlist(city_id);
 
