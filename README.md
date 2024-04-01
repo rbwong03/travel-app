@@ -7,6 +7,8 @@ The data was self generated using a python script in order to populate the
 tables. To run our project, ensure you are in 
 the correct directory, then launch MYSQL and run the following:
 
+## Project Setup
+
 mysql> source setup.sql;
 
 mysql> source load-data.sql;
