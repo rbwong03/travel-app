@@ -8,7 +8,7 @@ tables. To run our project, ensure you are in
 the correct directory, then launch MYSQL and run the following:
 
 ## Project Setup
-
+```
 mysql> source setup.sql;
 
 mysql> source load-data.sql;
@@ -30,7 +30,7 @@ $ python3 app-admin.py
 
 If you are a user, run:
 $ python3 app-client.py
-
+```
 You will be presented with a login and registration page. If you have not made 
 an account before, follow the commands in the menu to do so.
 Once you have made in account, you can follow the directions to log in. 
